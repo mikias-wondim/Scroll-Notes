@@ -8,18 +8,18 @@ async function Header() {
   const user = await getUser();
 
   return (
-    <header className="m:px-8 bg-background/80 supports-[backdrop-filter]:bg-background/60 dark:shadow-background/30 sticky top-0 right-0 left-0 z-50 flex h-20 items-center justify-between border-b px-3 shadow-sm backdrop-blur-sm dark:shadow-sm">
+    <header className="flex w-full items-center justify-between">
       <Link href={"/"} className="flex items-center gap-2">
         <Image
           src={"/logo.png"}
           alt="Scroll Notes"
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           className="dark:invert"
         />
-        <h1 className="font-heading flex flex-col items-center gap-0 text-xl leading-none font-bold">
+        <h1 className="font-heading flex flex-col items-start gap-0 text-lg leading-none font-bold">
           Scroll
-          <span className="text-muted-foreground font-light">Notes</span>
+          <span className="text-muted-foreground">Notes</span>
         </h1>
       </Link>
 

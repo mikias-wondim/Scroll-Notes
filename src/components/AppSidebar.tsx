@@ -3,7 +3,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
 import { prisma } from "@/db/prisma";
 import { Note } from "@prisma/client";
@@ -14,7 +14,6 @@ async function AppSidebar() {
   const user = await getUser();
 
   let notes: Note[] = [];
-
   if (user) {
     notes = await prisma.note.findMany({
       where: {
@@ -28,20 +27,20 @@ async function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarContent className="custom-scrollbar">
+      <SidebarHeader className="mt-3 mb-2 text-center text-lg">
+        {user ? (
+          "Your Notes"
+        ) : (
+          <p>
+            <Link href="/login" className="underline">
+              Login
+            </Link>{" "}
+            to see your notes
+          </p>
+        )}
+      </SidebarHeader>
+      <SidebarContent className="custom-scrollbar border-t">
         <SidebarGroup>
-          <SidebarGroupLabel className="mt-2 mb-2 text-lg">
-            {user ? (
-              "Your Notes"
-            ) : (
-              <p>
-                <Link href="/login" className="underline">
-                  Login
-                </Link>{" "}
-                to see your notes
-              </p>
-            )}
-          </SidebarGroupLabel>
           {user && <SidebarGroupContent notes={notes} />}
         </SidebarGroup>
       </SidebarContent>
