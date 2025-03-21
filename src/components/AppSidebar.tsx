@@ -24,7 +24,6 @@ async function AppSidebar() {
       },
     });
   }
-
   return (
     <Sidebar>
       <SidebarHeader className="mt-3 mb-2 text-center text-lg">
@@ -39,7 +38,7 @@ async function AppSidebar() {
           </p>
         )}
       </SidebarHeader>
-      <SidebarContent className="custom-scrollbar border-t">
+      <SidebarContent className="custom-scrollbar">
         <SidebarGroup>
           {user && <SidebarGroupContent notes={notes} />}
         </SidebarGroup>

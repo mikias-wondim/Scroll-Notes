@@ -13,7 +13,7 @@ import {
 import { Fragment, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Textarea } from "./ui/textarea";
-import { ArrowUpIcon } from "lucide-react";
+import { ArrowUpIcon, SparklesIcon } from "lucide-react";
 import { askAIAboutNotesAction } from "@/app/actions/notes";
 import "@/styles/ai-response.css";
 
@@ -92,7 +92,9 @@ function AskAIButton({ user }: Props) {
   return (
     <Dialog open={open} onOpenChange={handleOnOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Ask AI</Button>
+        <Button variant="secondary">
+          <SparklesIcon className="size-4" /> Ask AI
+        </Button>
       </DialogTrigger>
       <DialogContent
         className="custom-scrollbar flex h-[85vh] max-w-4xl flex-col overflow-y-auto"

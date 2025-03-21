@@ -33,7 +33,7 @@ function SidebarGroupContent({ notes }: Props) {
   }, [localNotes]);
 
   const filteredNotes = searchText
-    ? fuse.search(searchText).map((result) => result.item)
+    ? fuse.search(searchText.toLowerCase()).map((result) => result.item)
     : localNotes;
 
   const deleteNoteLocally = (noteId: string) => {
@@ -50,20 +50,24 @@ function SidebarGroupContent({ notes }: Props) {
           className="bg-muted pl-8"
           placeholder="Search your notes..."
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.trim() === "") {
+              setSearchText("");
+            } else {
+              setSearchText(e.target.value);
+            }
+          }}
         />
       </div>
 
       <SidebarMenu className="mt-4">
         {filteredNotes.map((note) => (
           <SidebarMenuItem key={note.id} className="group/item">
-            <SelectNoteButton
-            // note={note}
-            />
+            <SelectNoteButton note={note} />
 
             <DeleteNoteButton
-            //   noteId={note.id}
-            //   deleteNoteLocally={deleteNoteLocally}
+              noteId={note.id}
+              deleteNoteLocally={deleteNoteLocally}
             />
           </SidebarMenuItem>
         ))}

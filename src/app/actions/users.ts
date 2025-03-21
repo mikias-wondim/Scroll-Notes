@@ -96,3 +96,28 @@ export async function logout() {
     return { success: false, error: handleError(error) };
   }
 }
+
+export async function getUserDetails(userId: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return { success: true, user };
+  } catch (error) {
+    return { success: false, error: handleError(error) };
+  }
+}

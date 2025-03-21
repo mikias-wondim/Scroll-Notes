@@ -40,8 +40,9 @@ function LogoutButton({ className, variant = "outline" }: LogoutButtonProps) {
     <Button
       variant={variant}
       onClick={handleLogout}
-      className={cn(className)}
+      className={cn(className, "px-1.5 text-xs")}
       disabled={loading}
+      size="sm"
     >
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Log Out"}
     </Button>
