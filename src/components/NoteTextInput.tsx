@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Textarea } from "./ui/textarea";
-import { ChangeEvent, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useNote from "@/hooks/useNote";
 import { updateNoteAction } from "@/app/actions/notes";
+import TextEditor from "./TextEditor";
 
 type Props = {
   noteId: string;
@@ -16,31 +16,45 @@ let updateTimeout: NodeJS.Timeout;
 function NoteTextInput({ noteId, startingNoteText }: Props) {
   const noteIdParam = useSearchParams().get("noteId") || "";
   const { noteText, setNoteText } = useNote();
+  const [resetKey, setResetKey] = useState(0);
 
+  // Reset editor when switching between notes
   useEffect(() => {
     if (noteIdParam === noteId) {
       setNoteText(startingNoteText);
     }
   }, [startingNoteText, noteIdParam, noteId, setNoteText]);
 
-  const handleUpdateNote = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.target.value;
+  // Use reset key to force editor clear when noteText is empty
+  useEffect(() => {
+    if (noteText === "") {
+      setResetKey((prev) => prev + 1);
+    }
+  }, [noteText]);
 
-    setNoteText(text);
+  const handleUpdateNote = (content: string) => {
+    // Only update if content actually changed to prevent loops
+    if (content !== noteText) {
+      setNoteText(content);
 
-    clearTimeout(updateTimeout);
-    updateTimeout = setTimeout(() => {
-      updateNoteAction(noteId, text);
-    }, 1500);
+      clearTimeout(updateTimeout);
+      updateTimeout = setTimeout(() => {
+        updateNoteAction(noteId, content);
+      }, 500); // Reduced from 1500ms to 500ms for more responsive saving
+    }
   };
 
   return (
-    <Textarea
-      value={noteText}
-      onChange={handleUpdateNote}
-      placeholder="Type your notes here.."
-      className="custom-scrollbar placeholder:text-muted-foreground mb-4 h-full max-w-4xl resize-none border p-4 focus-visible:ring-0 focus-visible:ring-offset-0"
-    />
+    <div className="flex h-[calc(100vh-180px)] w-full flex-col items-center">
+      <TextEditor
+        isEditable={true}
+        content={noteText}
+        onChange={handleUpdateNote}
+        resetKey={resetKey}
+        width="max-w-5xl"
+        height="h-full"
+      />
+    </div>
   );
 }
 
