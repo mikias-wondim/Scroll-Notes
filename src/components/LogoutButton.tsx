@@ -44,7 +44,7 @@ function LogoutButton({ className, variant = "outline" }: LogoutButtonProps) {
       disabled={loading}
       size="sm"
     >
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Log Out"}
+      {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : "Log Out"}
     </Button>
   );
 }

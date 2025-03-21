@@ -40,7 +40,7 @@ function NoteTextInput({ noteId, startingNoteText }: Props) {
       clearTimeout(updateTimeout);
       updateTimeout = setTimeout(() => {
         updateNoteAction(noteId, content);
-      }, 500); // Reduced from 1500ms to 500ms for more responsive saving
+      }, 500);
     }
   };
 

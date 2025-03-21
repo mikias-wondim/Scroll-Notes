@@ -4,6 +4,7 @@ import NewNoteButton from "@/components/NewNoteButton";
 import NoteTextInput from "@/components/NoteTextInput";
 import HomeToast from "@/components/HomeToast";
 import { prisma } from "@/db/prisma";
+import { getAIConversationsForNote } from "./actions/notes";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -20,11 +21,17 @@ async function HomePage({ searchParams }: Props) {
   const note = await prisma.note.findUnique({
     where: { id: noteId, authorId: user?.id },
   });
+  const { conversations } = await getAIConversationsForNote(noteId);
 
   return (
     <div className="flex h-full flex-col items-center gap-4">
       <div className="flex w-full max-w-4xl justify-end gap-2">
-        <AskAIButton user={user} />
+        <AskAIButton
+          user={user}
+          noteId={noteId}
+          prefetchedConversations={conversations}
+          noteText={note?.text || ""}
+        />
         <NewNoteButton user={user} />
       </div>
 
